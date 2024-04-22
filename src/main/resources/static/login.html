@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<!--<html lang="en">-->
+<head>
+<meta charset="UTF-8">
+<title>Title</title>
+</head>
+
+<body>
+	<div class="loginBox">
+		<!-- 在div 标签中，我们比较常见的属性是id 和class -->
+		<!-- 其实id 和class是大部分标签都有的属性。其作用是让CSS或者JavaScript找到DOM元素并操作 -->
+		<h2>验证Login</h2>
+
+		<form id="form">
+			<!--<form> 标签用于创建供用户输入的 HTML 表单-->
+			<!-- <form> 元素包含一个或多个如下的表单元素： -->
+			<!-- input  textarea  button  select  option  optgroup  fieldset  label -->
+
+			<div class="item">
+				<input type="text" required> <label for="">用户名</label>
+				<!-- <input> 标签规定了用户可以在其中输入数据的输入字段。 -->
+				<!-- <input> 元素在 <form> 元素中使用，用来声明允许用户输入数据的 input 控件。 -->
+				<!-- 输入字段可通过多种方式改变，取决于 type 属性。 -->
+				<!-- 注意: <input> 元素是空的,它只包含标签属性 -->
+				<!-- 提示: 你可以使用 <label> 元素来定义 <input> 元素的标注，也就是备注。 -->
+			</div>
+
+			<div class="item">
+				<!-- <div> 标签定义 HTML 文档中的一个分隔区块或者一个区域部分。 -->
+				<!-- <div>标签常用于组合块级元素，以便通过 CSS 来对这些元素进行格式化。 -->
+				<!-- 提示：<div> 元素经常与 CSS 一起使用，用来布局网页。 -->
+				<input type="password" required> <label for="">密码</label>
+			</div>
+
+			<button type="button" class="btn">登录</button>
+			<!-- <button> 标签定义一个按钮。在 <button> 元素内部，您可以放置内容，比如文本或图像。 -->
+			<!-- 这是该元素与使用 <input> 元素创建的按钮之间的不同之处，请始终为 <button> 元素规定 type 属性。-->
+
+		</form>
+	</div>
+</body>
+
+<script src="C:/Users/ryuu/Desktop/jquery-3.7.1.js"></script>
+<!-- 配置JQuery框架 -->
+<script>
+	var userName = document.getElementsByTagName("input")[0]
+	var password = document.getElementsByTagName("input")[1]
+	//根据标签获取DOM元素对象,此时返回值是数组
+
+	$(document)
+			.ready(
+					function() {
+						/* ready预加载事件 ,其实就是相当于onload监听事件*/
+						$(".btn")
+								.click(
+										function() {
+											//ajax({这里面的是是键值对,是参数})
+											data = $
+													.ajax({
+														url : "http://localhost:8081/user/isPass?username="
+																+ userName.value
+																+ "&password="
+																+ password.value,
+														async : false
+													});
+											//这里的$.ajax是根据url去请求,请求成功就调用success里的function，但是不知道为什么省略了
+											//结果返回给function里面的形参,不出意外的话，这里的data就是为了得到这个形参
+											var ispass = data.responseJSON
+											//data是发送到服务器的数据
+											//这里的responseJSON是回调函数中的“response“参数来访问返回的数据。
+											//如果服务器返回的数据是JSON格式的,则可以直接通过“`response“`对象的“responseJSON“属性来获取
+											if (ispass) {
+												alert(userName.value + "登录成功")
+											} else {
+												alert(userName.value + "登录失败")
+											}
+										});
+					});
+</script>
+</html>
+
